@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>School Help Chatbot · Live Demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%23192A4A'/%3E%3Ccircle cx='20' cy='20' r='16.5' fill='none' stroke='%23BD852C' stroke-width='1.6'/%3E%3Ctext x='20' y='26.5' text-anchor='middle' font-family='serif' font-size='18' font-weight='700' fill='%23fff'%3ES%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Live demo of a button-based help chatbot for school and college websites: admissions, fees, campuses, English and Roman Urdu. No AI, no monthly cost.">
+<style>
+:root { --navy: #192A4A; --gold: #BD852C; --gold-l: #E2B25F; --paper: #F7F4EE; --ink: #1E2738; --muted: #5D6577; --line: #E6DFD2; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--ink); background: var(--paper); }
+header { background: linear-gradient(135deg, #14223D, var(--navy) 60%, #22386A); color: #fff; padding: 56px 20px 64px; }
+.wrap { max-width: 760px; margin: 0 auto; }
+@media (min-width: 1100px) { .wrap { margin-left: 470px; margin-right: 40px; } }
+.eb { font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--gold-l); text-transform: uppercase; }
+h1 { font: 700 clamp(30px, 5vw, 46px)/1.1 Georgia, "Times New Roman", serif; margin: 10px 0 14px; }
+h1 span { color: var(--gold-l); }
+header p { color: #D3DAE7; margin: 0; max-width: 60ch; }
+main { padding: 32px 20px 120px; }
+h2 { font: 700 24px Georgia, "Times New Roman", serif; color: var(--navy); margin: 32px 0 10px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+.switch { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.switch button, .switch select { font: 600 15px inherit; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--navy); background: #fff; color: var(--navy); cursor: pointer; font-family: inherit; }
+.switch button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+.switch select { border-radius: 10px; max-width: 100%; }
+.try { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.try code { display: inline-block; background: #F1EADB; color: #5A3D0E; border-radius: 8px; padding: 4px 10px; font-size: 14px; }
+ul.feat { padding-left: 20px; margin: 0; } ul.feat li { margin: 4px 0; }
+a { color: #7A5212; }
+.note { font-size: 14px; color: var(--muted); margin-top: 10px; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="eb">Live demo · no AI · one script line</div>
+  <h1>Help Chatbot for <span>Schools &amp; Colleges</span></h1>
+  <p>This is the real chatbot running on the 10 websites of SKANS School System. Open it from the round <strong>S</strong> button at the bottom-left of this page.</p>
+</div></header>
+
+<main><div class="wrap">
+  <h2>1. Choose how the chat should behave</h2>
+  <div class="card">
+    <div class="switch" role="group" aria-label="Demo mode">
+      <button type="button" id="m-main" aria-pressed="true">Main website (asks for campus)</button>
+      <label for="m-campus" class="note" style="margin:0">or a campus website:</label>
+      <select id="m-campus"><option value="">Choose a campus…</option></select>
+    </div>
+    <p class="note">On a campus website the chat knows the campus from the web address and only talks about that campus. Links open the real campus pages.</p>
+  </div>
+
+  <h2>2. Try typing</h2>
+  <div class="card">
+    <ul class="try">
+      <li><code>class 5 fee</code></li><li><code>5 class ki fee</code></li><li><code>kg fees</code></li>
+      <li><code>documents required</code></li><li><code>admision kaise</code></li><li><code>fees kitni hai</code></li>
+      <li><code>minimum age</code></li><li><code>hello</code></li><li><code>who are you</code></li>
+    </ul>
+    <p class="note">Real fee amounts appear for AECHS Campus, read live from that campus website.</p>
+  </div>
+
+  <h2>What it does</h2>
+  <div class="card"><ul class="feat">
+    <li>Topic cards and common questions, with a link to the right page of the right campus</li>
+    <li>Understands English and Roman Urdu, and small spelling mistakes</li>
+    <li>Real fee amounts per class, from the campus Fee Structure</li>
+    <li>WhatsApp and Call buttons for the campus under every answer</li>
+    <li>No AI service, no API key, no database, no monthly cost</li>
+  </ul></div>
+  <p class="note">Source code, setup guide and screenshots: <a href="https://github.com/farooq831/Chatbot_for_School-College">github.com/farooq831/Chatbot_for_School-College</a></p>
+</div></main>
+
+<script>
+  var CHAT = document.createElement('script');
+  CHAT.src = 'chatbot/chatbot.js?v=3'; CHAT.defer = true; CHAT.setAttribute('data-open', 'true');
+  document.body.appendChild(CHAT);
+
+  var mainBtn = document.getElementById('m-main'), sel = document.getElementById('m-campus');
+  function fill() {
+    if (!window.SKANS_CHAT_CAMPUSES) return setTimeout(fill, 150);
+    window.SKANS_CHAT_CAMPUSES.forEach(function (c) { var o = document.createElement('option'); o.value = c.id; o.textContent = c.name; sel.appendChild(o); });
+  }
+  fill();
+  mainBtn.addEventListener('click', function () { sel.value = ''; mainBtn.setAttribute('aria-pressed', 'true'); window.SKANS_CHAT && window.SKANS_CHAT.restart(''); });
+  sel.addEventListener('change', function () { if (!sel.value) return; mainBtn.setAttribute('aria-pressed', 'false'); window.SKANS_CHAT && window.SKANS_CHAT.restart(sel.value); });
+</script>
+</body>
+</html>
